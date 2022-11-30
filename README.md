@@ -1,5 +1,11 @@
 # game2gather
-A web app where you and your friends can find games you would like to play together
+Built with [Spring Boot](https://spring.io/) and [Angular](https://angular.io/)
+
+Rate some games
+![Rate games](screenshots/rate.PNG)
+
+Choose players and find games you all like
+![Match games](screenshots/match.PNG)
 
 ## Running locally
 ### Database
