@@ -18,3 +18,4 @@ Choose players and find games you all like
 ### UI
 - Make sure backend is already running
 - Run `npm start` for a dev server. Navigate to `http://localhost:4200/`
+- Initial username/password on empty DB is 'initialChangeMe'
