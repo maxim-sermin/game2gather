@@ -1,0 +1,36 @@
+.existing-genre {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+
+  .genre-title {
+    font-size: 22px;
+    font-weight: 500;
+  }
+
+  .existing-genre-actions-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+}
+
+.edit-form-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 5px;
+
+  .edit-cancel-button {
+    align-self: flex-start;
+    flex-shrink: 0;
+    margin-top: 7px; // keep in sync with add-game save button
+  }
+
+  app-edit-genre {
+    width: 100%;
+  }
+}

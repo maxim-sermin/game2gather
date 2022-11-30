@@ -1,0 +1,19 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Build and run spring backend",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.gamers.game2gatherbackend.Game2gatherBackendApplication",
+            "projectName": "game2gather-backend",
+            "args": "",
+            "env": {
+                "DATABASE_URL": "postgres://game2gather-user:password@localhost:5432/game2gather",
+                "FRONTENDURLS": "http://localhost:4200"
+            }
+        }
+    ]
+}

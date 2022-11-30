@@ -1,0 +1,127 @@
+@use '@angular/material' as mat;
+@import "game2gather-theme";
+
+// those mixins are expensive, so do them here because this file won't be imported anywhere
+@include mat.core();
+@include mat.all-component-themes($game2gather-dark-theme);
+.lightMode {
+  @include mat.all-component-colors($game2gather-light-theme);
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; overflow-x: hidden}
+
+.mat-icon {
+  vertical-align: -5px;
+  padding: 4px;
+}
+
+.dialog-header-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .close-button {
+    margin-left: 50px;
+
+    mat-icon {
+      position: relative;
+      bottom: 1px;
+      right: 1px;
+    }
+  }
+}
+
+.info-container {
+  display: flex;
+  align-items: center;
+
+  span {
+    margin-left: 12px;
+  }
+}
+
+.progress-bar {
+  position: relative;
+
+  mat-progress-bar {
+    position: absolute;
+    bottom: -1px;
+  }
+}
+
+.progress-bar-bottom-rounded {
+  mat-progress-bar {
+    border-radius: 0px 0px 4px 4px;
+  }
+}
+
+.progress-bar-button {
+  position: relative;
+  mat-progress-bar {
+    height: 100%;
+    position: absolute;
+    border-radius: 4px;
+    opacity: 0.7;
+  }
+}
+
+button {
+  mat-icon {
+    position: relative;
+    bottom: 1px;
+    right: 5px;
+  }
+}
+
+// intro.js tooltip
+.intro-no-vertical-padding {
+  div {
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+
+  .introjs-tooltip-header {
+    padding: 0px;
+
+    a {
+      padding-top: 4px;
+      padding-right: 10px;
+      padding-bottom: 0px;
+    }
+  }
+
+  .introjs-tooltiptext {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .introjs-tooltipbuttons {
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+}
+
+.info-container {
+  display: flex;
+}
+
+.chip-icon {
+  margin-right: 6px;
+  padding: 0px;
+}
+
+.pseudo-mat-option {
+  height: 3em;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+}
+
+.pseudo-mat-option-dark:hover {
+  background-color: rgba(255, 255, 255, 0.04)
+}
+
+.pseudo-mat-option-light:hover {
+  background-color: rgba(0, 0, 0, 0.04)
+}

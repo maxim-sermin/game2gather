@@ -1,0 +1,64 @@
+<div class="theme-container mat-app-background">
+  <mat-toolbar color="primary">
+    <div class="toolbar-container">
+      <div class="logo-container">
+        <img class="logo" src="assets/logo.svg"/>
+        <span class="title">Game2Gather</span>
+        <div #actionsContainer class="actions-container" *ngIf="authenticationService.authenticatedUser.value">
+          <button mat-button routerLink="/match"><mat-icon>compare_arrows</mat-icon><span class="toolbar-button-text">Match Games</span></button>
+          <button class="button-with-badge" mat-button routerLink="/rate" [matBadge]="getAbbreviatedAmountUnratedGames()" [matBadgeHidden]="amountUnratedGames < 1" matBadgeColor="accent"><mat-icon>favorite</mat-icon><span class="toolbar-button-text">Rate Games</span></button>
+          <button mat-button routerLink="/edit"><mat-icon>edit</mat-icon><span class="toolbar-button-text">Edit Games</span></button>
+        </div>
+      </div>
+      <div class="server-loading-text" *ngIf="showServerLoading()">
+        <span>Please wait a couple seconds for server to start</span>
+      </div>
+      <div class="dark-mode-user-settings">
+        <mat-icon>brightness_5</mat-icon>
+        <mat-slide-toggle [formControl]="darkModeToggle">
+        </mat-slide-toggle>
+        <mat-icon>bedtime</mat-icon>
+
+        <div #userContainer *ngIf="authenticationService.authenticatedUser.value">
+          <div [ngClass]="{'clicked-user-area' : t.menuOpen}" class="user-area noselect" [matMenuTriggerFor]="userMenu" #t="matMenuTrigger" matRipple>
+            <svg [data-jdenticon-value]="authenticationService.authenticatedUser.value.id" width="40" height="40">
+              {{authenticationService.authenticatedUser.value.username}}
+            </svg>
+            <mat-icon [class.highlighted-icon]="t.menuOpen">keyboard_arrow_down</mat-icon>
+          </div>
+          <mat-menu #userMenu>
+            <span *ngIf="authenticationService.authenticatedUser.value" (click)="$event.stopPropagation()"
+                  mat-menu-item>Hi, {{authenticationService.authenticatedUser.value.username}} 👋</span>
+            <div mat-menu-item class="open-sessions-container" (click)="$event.stopPropagation()" *ngIf="authenticationService.isAdmin()">
+              <span>Sessions: {{authenticationService.amountOpenSessions}}</span>
+              <button class="refresh-button" color="primary" mat-flat-button
+                      (click)="authenticationService.refreshOpenSessions()">
+                <mat-icon>refresh</mat-icon>
+              </button>
+              <button (click)="openActiveSessionsDialog()" class="refresh-button" color="accent" mat-flat-button>
+                <mat-icon>search</mat-icon>
+              </button>
+            </div>
+            <button mat-menu-item routerLink="/settings">Settings
+              <mat-icon class="settings-icon">settings</mat-icon>
+            </button>
+            <button mat-menu-item routerLink="/genre" *ngIf="authenticationService.isAdmin()">Genres
+              <mat-icon class="settings-icon">category</mat-icon>
+            </button>
+            <button mat-menu-item (click)="showIntro()">Show Intro
+              <mat-icon class="settings-icon">ondemand_video</mat-icon>
+            </button>
+            <button mat-menu-item (click)="authenticationService.performLogout()">Logout
+              <mat-icon class="logout-icon">exit_to_app</mat-icon>
+            </button>
+            <mat-divider></mat-divider>
+          </mat-menu>
+        </div>
+      </div>
+    </div>
+  </mat-toolbar>
+  <div class="router-outlet-wrapper">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+

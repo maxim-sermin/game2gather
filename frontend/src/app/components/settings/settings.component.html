@@ -1,0 +1,106 @@
+<mat-card class="settings-container">
+  <div class="header-back-container">
+    <app-back-button></app-back-button>
+    <span class="settings-title">Settings</span>
+  </div>
+  <mat-accordion>
+    <mat-expansion-panel class="own-account-panel">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon>account_circle</mat-icon>
+        </mat-panel-title>
+        <mat-panel-description>
+          My account
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <div>
+        <h2>Change username</h2>
+        <div class="username-identicon-container">
+          <form [formGroup]="newUserNameForm" class="change-username-container">
+            <div class="new-user-name-field input-with-hint">
+              <mat-form-field>
+                <mat-label>New username</mat-label>
+                <input matInput formControlName="userName" [placeholder]="authenticationService.authenticatedUser.value?.username ? authenticationService.authenticatedUser.value!.username : ''">
+              </mat-form-field>
+            </div>
+            <div class="progress-bar-button name-save-button">
+              <mat-progress-bar color="primary" mode="indeterminate" *ngIf="saveUsernameRunning"></mat-progress-bar>
+              <button (click)="changeUsername()" color="primary" class="wide-button" [disabled]="newUserNameForm.value.userName.length < 1 || !newUserNameForm.valid || saveUsernameRunning" mat-raised-button><mat-icon>save</mat-icon>Save username</button>
+            </div>
+          </form>
+          <svg *ngIf="authenticationService.authenticatedUser.value" [data-jdenticon-value]="authenticationService.authenticatedUser.value!.id" width="160" height="160">
+            {{authenticationService.authenticatedUser.value!.username}}
+          </svg>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+      <div>
+        <h2>Change password</h2>
+        <form [formGroup]="newPasswordForm" class="change-password-container">
+          <mat-form-field>
+            <app-toggle-password #ownNewPwToggle matSuffix></app-toggle-password>
+            <input matInput placeholder="New password" [type]="ownNewPwToggle.type" required
+                   formControlName="newPassword">
+            <mat-hint>Must be at least 8 characters long</mat-hint>
+          </mat-form-field>
+          <div class="progress-bar-button name-save-button">
+            <mat-progress-bar color="primary" mode="indeterminate" *ngIf="savePasswordRunning"></mat-progress-bar>
+            <button (click)="changePassword()" color="primary" class="wide-button" [disabled]="!newPasswordForm.valid || savePasswordRunning" mat-raised-button><mat-icon>save</mat-icon>Save password</button>
+          </div>
+        </form>
+      </div>
+      <mat-divider></mat-divider>
+      <h2>Delete account</h2>
+      <div class="change-password-container">
+        <div class="progress-bar-button name-save-button">
+          <mat-progress-bar color="warn" mode="indeterminate" *ngIf="deleteAccountRunning"></mat-progress-bar>
+          <button color="warn" class="wide-button delete-account-button" mat-raised-button (click)="deleteAccount()" [disabled]="deleteAccountRunning"><mat-icon>delete</mat-icon>I don't want to use this app ever again</button>
+        </div>
+      </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel (opened)="handleUsersPanelOpened()" class="create-account-panel">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon>group_add</mat-icon>
+        </mat-panel-title>
+        <mat-panel-description>
+          Add new users
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <div>
+        <h2>Data for new user</h2>
+        <form [formGroup]="addNewUserForm" class="new-user-container">
+          <div class="input-with-hint">
+            <mat-form-field>
+              <input matInput placeholder="Initial username" required
+                     formControlName="userName">
+            </mat-form-field>
+          </div>
+          <div class="input-with-hint">
+            <mat-form-field>
+              <app-toggle-password #newPwToggle matSuffix></app-toggle-password>
+              <input matInput placeholder="Initial password" [type]="newPwToggle.type" required
+                     formControlName="password">
+              <mat-hint>Must be at least 8 characters long</mat-hint>
+            </mat-form-field>
+          </div>
+          <mat-checkbox *ngIf="authenticationService.isAdmin()" formControlName="makeAdmin">Make admin</mat-checkbox>
+          <div class="progress-bar-button name-save-button">
+            <mat-progress-bar color="primary" mode="indeterminate" *ngIf="addNewUserRunning"></mat-progress-bar>
+            <button (click)="addNewUser()" color="primary" class="wide-button add-new-user-button" [disabled]="!addNewUserForm.valid || addNewUserRunning" mat-raised-button><mat-icon>add_circle_outline</mat-icon>Add user</button>
+          </div>
+        </form>
+        <h2>{{usersService.users.value?.length}} already registered users</h2>
+        <div *ngFor="let user of usersService.users.value; last as last">
+          <app-existing-user [user]="user"></app-existing-user>
+          <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
+        </div>
+        <div class="progress-bar progress-bar-bottom-rounded">
+          <mat-progress-bar color="primary" mode="indeterminate" *ngIf="usersService.userRefreshRunning"></mat-progress-bar>
+        </div>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</mat-card>

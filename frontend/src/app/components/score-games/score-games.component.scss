@@ -1,0 +1,112 @@
+$canvas-height: 600px;
+
+.floating-actions-container {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.existing-games-card {
+  margin-top: 20px;
+  min-height: $canvas-height;
+  display:flex;
+  flex-direction: column;
+
+  .existing-games-header {
+    display: flex;
+    justify-content: space-between;
+
+    .show-all-unrated-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+  }
+
+  .progress-button-container {
+    margin-top: 16px;
+    margin-bottom: 14px;
+
+    .progress-bar-container {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      height: 36px;
+
+      mat-progress-bar {
+        height: 12px;
+        border-radius: 12px;
+      }
+
+      span {
+        font-size: 20px;
+      }
+    }
+  }
+
+  app-game-list {
+    flex-grow: 1;
+  }
+
+  .rate-more-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 12px;
+    min-height: 36px;
+
+    .rate-more-button {
+      width: 210px;
+    }
+
+    .confetti-controls {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+
+      .confetti-sliders {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 70px;
+
+        .control-with-title {
+          display: flex;
+          flex-direction: column;
+
+          .control-with-value {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+          }
+
+          .control-title {
+            text-align: center;
+          }
+        }
+      }
+    }
+
+    .fire-buttons {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+
+      .confetti-icon-flip {
+        transform: scaleX(-1);
+        right: -5px;
+      }
+    }
+  }
+
+  .confetti-canvas {
+    width: 100%;
+    height: calc(#{$canvas-height} + 32px);;
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    pointer-events: none;
+    z-index: 1;
+  }
+}

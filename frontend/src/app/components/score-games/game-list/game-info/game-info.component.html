@@ -1,0 +1,39 @@
+<div class="game-info-container">
+  <app-game-picture [pictureUrl]="game?.pictureLink"></app-game-picture>
+  <div class="game-rows-container">
+    <div class="game-info-upper-row">
+      <div class="title-flags-container">
+        <div [matTooltip]="'Changed ' + (game?.lastModifiedAt | dateAgo)" matTooltipPosition="above">
+          <span *ngIf="!game?.link" class="game-title">{{game?.name}}</span>
+          <a *ngIf="game?.link" class="game-title" [href]="game?.link" target="_blank">{{game?.name}}<mat-icon class="title-link">open_in_new</mat-icon></a>
+        </div>
+        <mat-chip-list class="game-info-chips">
+          <mat-chip *ngIf="game?.isFree">
+            <mat-icon class="chip-icon">local_offer</mat-icon>
+            <span>Free</span>
+          </mat-chip>
+          <mat-chip *ngIf="game?.hasCoop">
+            <mat-icon class="chip-icon">handshake</mat-icon>
+            <span>Coop</span>
+          </mat-chip>
+          <mat-chip *ngIf="game?.hasVs">
+            <mat-icon class="chip-icon">emoji_events</mat-icon>
+            <span>VS</span>
+          </mat-chip>
+        </mat-chip-list>
+      </div>
+      <mat-chip-list class="players-chip-list">
+        <mat-chip *ngIf="game?.minPlayers || game?.maxPlayers">
+          <mat-icon class="chip-icon">people</mat-icon><span *ngIf="game?.minPlayers">{{game?.minPlayers}}</span><span *ngIf="game?.minPlayers && game?.maxPlayers" class="min-max-divider">-</span><span *ngIf="game?.maxPlayers">{{game?.maxPlayers}}</span>
+        </mat-chip>
+      </mat-chip-list>
+    </div>
+    <div class="game-info-lower-row">
+      <mat-chip-list>
+        <mat-chip *ngIf="game?.genre">
+          <span>{{game?.genre?.name!}}</span>
+        </mat-chip>
+      </mat-chip-list>
+    </div>
+  </div>
+</div>

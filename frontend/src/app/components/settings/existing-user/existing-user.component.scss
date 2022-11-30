@@ -1,0 +1,37 @@
+.existing-user-line-container {
+  height: 94px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .existing-user-info {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+
+    .username {
+      font-size: 19px;
+    }
+  }
+
+  .existing-user-admin-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .other-user-new-password-field {
+      width: 260px;
+    }
+
+    .existing-user-admin-actions {
+      display: flex;
+      align-items: center;
+
+      .admin-buttons-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+    }
+  }
+}

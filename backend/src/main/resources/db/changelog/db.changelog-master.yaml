@@ -1,0 +1,213 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: max
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: username
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: password
+                  type: varchar(60)
+                  constraints:
+                    nullable: false
+              - column: # this column is required by spring session handling
+                  name: enabled
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column: # this column is required by spring session handling
+                  name: role
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 2
+      author: max
+      changes:
+        - createTable:
+            tableName: games
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified_at
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: link
+                  type: varchar(10000)
+              - column:
+                  name: price
+                  type: float
+              - column:
+                  name: min_players
+                  type: smallint
+              - column:
+                  name: max_players
+                  type: smallint
+              - column:
+                  name: created_by_user_fk
+                  type: bigint
+        - addForeignKeyConstraint:
+            baseColumnNames: created_by_user_fk
+            baseTableName: games
+            constraintName: games_user_created_fk
+            onDelete: SET NULL # dont delete games when user (referenced value) gets deleted
+            onUpdate: CASCADE
+            referencedColumnNames: id
+            referencedTableName: users
+  - changeSet:
+      id: 3
+      author: max
+      changes:
+        - createTable:
+            tableName: scores
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: scored_by_user_fk
+                  type: bigint
+              - column:
+                  name: scored_game_fk
+                  type: bigint
+              - column:
+                  name: score
+                  type: float
+              - column:
+                  name: own_game
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified_at
+                  type: timestamp
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseColumnNames: scored_by_user_fk
+            baseTableName: scores
+            constraintName: scores_user_fk
+            onDelete: CASCADE # when user gets deleted, also delete all of their scores because they don't make sense anymore
+            onUpdate: CASCADE
+            referencedColumnNames: id
+            referencedTableName: users
+        - addForeignKeyConstraint:
+            baseColumnNames: scored_game_fk
+            baseTableName: scores
+            constraintName: scores_game_fk
+            onDelete: RESTRICT # dont allow delete scores when game (referenced value) is attempted to be deleted
+            onUpdate: CASCADE
+            referencedColumnNames: id
+            referencedTableName: games
+  - changeSet:
+      id: 4
+      author: max
+      changes:
+        - dropColumn:
+            columnName: price
+            tableName: games
+        - addColumn:
+            - tableName: games
+              columns:
+                - column:
+                    name: picture_link
+                    type: varchar(10000)
+  - changeSet:
+      id: 5
+      author: max
+      changes:
+        - addColumn:
+            - tableName: games
+              columns:
+                - column:
+                    name: has_coop
+                    type: boolean
+                    defaultValue: false
+                    constraints:
+                      nullable: false
+                - column:
+                    name: has_vs
+                    type: boolean
+                    defaultValue: false
+                    constraints:
+                      nullable: false
+  - changeSet:
+      id: 6
+      author: max
+      changes:
+        - addColumn:
+            - tableName: games
+              columns:
+                - column:
+                    name: is_free
+                    type: boolean
+                    defaultValue: false
+                    constraints:
+                      nullable: false
+  - changeSet:
+      id: 7
+      author: luk
+      changes:
+        - createTable:
+            tableName: genre
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 8
+      author: jemand
+      changes:
+        - addColumn:
+            - tableName: games
+              columns:
+                - column:
+                    name: genre_fk
+                    type: bigint
+        - addForeignKeyConstraint:
+            baseColumnNames: genre_fk
+            baseTableName: games
+            constraintName: games_genre_fk
+            onDelete: SET NULL # dont delete games when user (referenced value) gets deleted
+            onUpdate: CASCADE
+            referencedColumnNames: id
+            referencedTableName: genre

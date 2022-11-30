@@ -1,0 +1,68 @@
+@import "~src/variables";
+
+.game-info-container {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+  .game-rows-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 7px;
+
+    .game-info-upper-row {
+      display: flex;
+      justify-content: space-between;
+      flex-grow: 1;
+      margin-right: 10px;
+      width: 100%;
+
+      .title-flags-container {
+        display: flex;
+        align-items: center;
+
+        .game-title {
+          font-size: 22px;
+          font-weight: 500;
+          color: inherit;
+        }
+
+        .title-link {
+          margin-left: 6px;
+        }
+      }
+
+      @media screen and (max-width: $mediumLayoutWidthStep) {
+        .game-info-chips {
+          display: none;
+        }
+      }
+
+      .game-info-chips {
+        margin-left: 16px;
+      }
+
+      .min-max-divider {
+        margin-left: 5px;
+        margin-right: 5px;
+      }
+
+      @media screen and (max-width: $largestLayoutWidthStep) {
+        .players-chip-list {
+          display: none;
+        }
+      }
+    }
+
+    .game-info-lower-row {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+  }
+}

@@ -1,0 +1,6 @@
+<div *ngFor="let game of gamesWithMyScores; first as first; last as last">
+  <app-game-info [game]="game"></app-game-info>
+  <app-score-game [scoreThisGame]="game" [isFirst]="first" [isInScoredList]="listShowsScored" (amountScoredChanged)="amountScoredChanged.next($event)" (gameSkipped)="gameSkipped.next($event)"></app-score-game>
+  <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
+</div>
+<app-empty-list-placeholder *ngIf="gamesWithMyScores.length < 1"></app-empty-list-placeholder>

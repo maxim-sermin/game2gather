@@ -1,0 +1,34 @@
+<div class="existing-user-line-container">
+  <div class="existing-user-info">
+    <svg [data-jdenticon-value]="user?.id" width="50" height="50">
+      {{user?.username}}
+    </svg>
+    <span class="username">{{user?.username}}</span>
+    <mat-chip-list *ngIf="authenticationService.isAdmin()">
+      <mat-chip selected color="accent" *ngIf="user?.role === authenticationService.ADMIN_ROLE_NAME"><mat-icon>manage_accounts</mat-icon>admin</mat-chip>
+    </mat-chip-list>
+  </div>
+  <div class="existing-user-admin-container" *ngIf="authenticationService.isAdmin()">
+    <mat-form-field class="other-user-new-password-field" *ngIf="currentlyEditing">
+      <app-toggle-password #otherNewPwToggle matSuffix></app-toggle-password>
+      <input matInput placeholder="New password" [type]="otherNewPwToggle.type" required [formControl]="newPassword">
+      <mat-hint>Must be at least 8 characters long</mat-hint>
+    </mat-form-field>
+    <div class="existing-user-admin-actions">
+      <div class="admin-buttons-container" *ngIf="!currentlyEditing">
+        <button mat-stroked-button color="primary" (click)="toggleEdit()"><mat-icon>edit</mat-icon>Edit</button>
+        <div class="progress-bar-button">
+          <mat-progress-bar color="warn" mode="indeterminate" *ngIf="deleteUserRunning"></mat-progress-bar>
+          <button mat-stroked-button color="warn" (click)="deleteUser()" [disabled]="deleteUserRunning"><mat-icon>delete</mat-icon>Delete</button>
+        </div>
+      </div>
+      <div class="admin-buttons-container" *ngIf="currentlyEditing">
+        <div class="progress-bar-button">
+          <mat-progress-bar color="primary" mode="indeterminate" *ngIf="updatePasswordRunning"></mat-progress-bar>
+          <button mat-stroked-button color="primary" (click)="updatePassword()" [disabled]="updatePasswordRunning || !newPassword.valid"><mat-icon>save</mat-icon>Save</button>
+        </div>
+        <button class="edit-cancel-button" mat-stroked-button color="warn" (click)="toggleEdit()"><mat-icon>close</mat-icon>Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>

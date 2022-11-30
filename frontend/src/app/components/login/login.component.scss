@@ -1,0 +1,102 @@
+$horizontal-margin: 50px;
+
+.mat-form-field {
+  width: 343px;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-page-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-card {
+  padding-left: $horizontal-margin;
+  padding-right: $horizontal-margin;
+}
+
+.login-row {
+  display: flex;
+}
+
+@media screen and (max-width: 800px) {
+  .login-row {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.icon-logo-container {
+  width: 220px;
+  height: 220px;
+  margin-top: auto;
+  margin-bottom: auto;
+
+  .icon-logo-login {
+    transform: scale(3);
+  }
+}
+
+.login-logo {
+  max-width: 286px;
+}
+
+.login-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.login-divider {
+  margin-left: $horizontal-margin;
+  margin-right: $horizontal-margin;
+}
+
+.login-header {
+  font-weight: 500;
+  font-size: 1.6em;
+  margin-bottom: 30px;
+}
+
+mat-card-title,
+mat-card-content {
+  display: flex;
+  justify-content: center;
+}
+
+.error {
+  padding: 12px;
+  max-width: 100%;
+  height: 1em;
+  color: white;
+  background-color: red;
+  visibility: hidden;
+  margin-bottom: 15px;
+}
+
+.login-register-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  a {
+    margin-top: 20px;
+  }
+}
+
+.login-progress {
+  position: relative;
+  top: 16px;
+  margin-left: -$horizontal-margin;
+  padding-right: calc(#{$horizontal-margin} * 2);
+  height: 5px;
+}

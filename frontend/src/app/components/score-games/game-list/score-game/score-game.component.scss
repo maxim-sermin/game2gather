@@ -1,0 +1,91 @@
+.score-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+
+  .slider-checkbox-container {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    .slider-container {
+      display: flex;
+      align-items: center;
+      margin-right: 60px;
+
+      .score-info-container {
+        width: 170px;
+        display: flex;
+        align-items: center;
+
+        .score-emoji {
+          font-size: 22px;
+          margin-right: 8px;
+        }
+
+        .score-info-placeholder-rate-now {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          font-weight: 900;
+
+          .rate-now-text {
+            font-size: 21px;
+            font-style: italic;
+          }
+
+          .point-finger-icon {
+            transform: rotate(90deg);
+            font-size: 40px;
+            position: relative;
+            bottom: 10px;
+            right: -22px;
+
+            animation-duration: 0.8s;
+            animation-name: point-finger-animation;
+            animation-iteration-count: infinite;
+            animation-direction: alternate;
+            animation-timing-function: ease-in;
+          }
+        }
+      }
+    }
+
+    @media screen and (max-width: 882px) {
+      .skip-rate-button {
+        display: none;
+      }
+    }
+
+    .skip-rate-button {
+      margin-left: 90px;
+    }
+  }
+
+  .score-timestamp {
+    display: flex;
+
+    .timestamp-placeholder {
+      font-style: italic;
+      white-space: nowrap;
+    }
+
+    .button-info-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+  }
+}
+
+@keyframes point-finger-animation {
+  from {
+    right: -22px;
+  }
+
+  to {
+    right: -27px;
+  }
+}

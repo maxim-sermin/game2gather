@@ -1,0 +1,14 @@
+<div class="existing-genre" *ngIf="!currentlyEditing">
+  <span class="genre-title">{{genre?.name}}</span>
+  <div class="existing-genre-actions-container" *ngIf="authenticationService.isAdmin()">
+    <button mat-stroked-button color="primary" (click)="toggleEdit()"><mat-icon>edit</mat-icon>Edit</button>
+    <div class="progress-bar-button">
+      <mat-progress-bar color="warn" mode="indeterminate" *ngIf="deleteGenreRunning"></mat-progress-bar>
+      <button mat-stroked-button color="warn" (click)="deleteGenre()" [disabled]="deleteGenreRunning"><mat-icon>delete</mat-icon>Delete</button>
+    </div>
+  </div>
+</div>
+<div *ngIf="currentlyEditing" class="edit-form-container">
+  <app-edit-genre [existingGenre]="genre" (saveSuccessfullyCompleted)="currentlyEditing = false"></app-edit-genre>
+  <button class="edit-cancel-button" mat-stroked-button color="warn" (click)="toggleEdit()"><mat-icon>close</mat-icon>Cancel</button>
+</div>

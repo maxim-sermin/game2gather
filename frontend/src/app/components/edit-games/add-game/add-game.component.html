@@ -1,0 +1,55 @@
+<div class="fields-picture-container" [formGroup]="newGameForm">
+  <app-game-picture [pictureUrl]="newGameForm.value.pictureLink"></app-game-picture>
+  <div class="fields-warning-container">
+    <div class="fields-save-container">
+      <div class="fields-container">
+        <mat-form-field class="field-base" [matTooltipDisabled]="!editExistingGame || authenticationService.isAdmin()" matTooltip="Game name cannot be edited - please delete the game and add it again with correct name">
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="name" [matAutocomplete]="gameNameAuto" (focus)="filterGames()" (ngModelChange)="filterGames()" placeholder="Portal 2">
+          <mat-autocomplete #gameNameAuto="matAutocomplete">
+            <mat-option *ngFor="let option of filteredGameNameOptions.value" [value]="option.name">
+              {{option.name}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <mat-form-field class="field-base">
+          <mat-label>Genre</mat-label>
+          <mat-select [(value)]="selectedGenre">
+            <mat-option [value]="undefined">None...</mat-option>
+            <mat-option *ngFor="let genre of genreService.allGenres.value" [value]="genre">
+              {{genre.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="field-base link-field">
+          <mat-label>Link</mat-label>
+          <input matInput formControlName="link" placeholder="https://store.steampowered.com/app/620/Portal_2/">
+        </mat-form-field>
+        <mat-form-field class="field-base link-field">
+          <mat-label>Picture Link</mat-label>
+          <input matInput formControlName="pictureLink" placeholder="https://cdn.akamai.steamstatic.com/steam/apps/620/header.jpg">
+        </mat-form-field>
+        <mat-form-field class="players-field">
+          <mat-label>Min. Players</mat-label>
+          <input type="number" min="1" matInput formControlName="minPlayers" placeholder="2">
+        </mat-form-field>
+        <mat-form-field class="players-field">
+          <mat-label>Max. Players</mat-label>
+          <input type="number" min="1" matInput formControlName="maxPlayers" placeholder="4">
+        </mat-form-field>
+        <mat-checkbox formControlName="hasCoop">Has coop</mat-checkbox>
+        <mat-checkbox formControlName="hasVs">Has vs.</mat-checkbox>
+        <mat-checkbox formControlName="isFree">Is free</mat-checkbox>
+      </div>
+      <div class="progress-bar-button game-save-button">
+        <mat-progress-bar color="primary" mode="indeterminate" *ngIf="saveGameRunning"></mat-progress-bar>
+        <button mat-stroked-button color="primary" [disabled]="!newGameForm.valid || saveGameRunning" (click)="saveGame()"><mat-icon>save</mat-icon>Save</button>
+      </div>
+    </div>
+    <div *ngIf="duplicateNameWarning" class="info-container">
+      <mat-icon>info</mat-icon>
+      <span>Game with this name already exists - choose a different name</span>
+    </div>
+  </div>
+</div>
+

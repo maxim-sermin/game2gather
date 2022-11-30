@@ -1,0 +1,13 @@
+<mat-card class="genres-container">
+  <ng-container *ngIf="authenticationService.isAdmin()">
+    <mat-card-title>Add new genre</mat-card-title>
+    <app-edit-genre></app-edit-genre>
+  </ng-container>
+  <mat-card-title class="existing-genres-title">Existing genres</mat-card-title>
+  <div>
+    <div *ngFor="let genre of genreService.allGenres.value; last as last">
+      <app-genre-item [genre]="genre"></app-genre-item>
+      <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
+    </div>
+  </div>
+</mat-card>

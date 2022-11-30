@@ -1,0 +1,10 @@
+<div class="new-genre-container" [formGroup]="newGenreForm">
+  <mat-form-field class="field-base link-field">
+    <mat-label>Genre</mat-label>
+    <input matInput formControlName="name" placeholder="Action">
+  </mat-form-field>
+  <div class="progress-bar-button game-save-button">
+    <mat-progress-bar color="primary" mode="indeterminate" *ngIf="saveGenreRunning"></mat-progress-bar>
+    <button mat-stroked-button color="primary" [disabled]="!newGenreForm.valid || saveGenreRunning" (click)="saveGenre()"><mat-icon>save</mat-icon>Save</button>
+  </div>
+</div>

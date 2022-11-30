@@ -1,0 +1,36 @@
+<div class="score-container">
+  <div class="slider-checkbox-container">
+    <div class="slider-container">
+      <div class="score-info-container">
+        <div *ngIf="scoresService.scoreScaleInfo[chosenScore]">
+          <span class="score-emoji">{{scoresService.scoreScaleInfo[chosenScore].emoji}}</span>
+          <span>{{scoresService.scoreScaleInfo[chosenScore].text}}</span>
+        </div>
+        <div class="score-info-placeholder-rate-now" [ngClass]="{'primary-color-dark' : appService.isDarkTheme, 'primary-color-light' : !appService.isDarkTheme}" *ngIf="!scoresService.scoreScaleInfo[chosenScore] && isFirst && !isInScoredList">
+          <span class="rate-now-text">Rate game</span>
+          <mat-icon class="point-finger-icon">pan_tool_alt</mat-icon>
+        </div>
+      </div>
+      <mat-slider
+        [max]="scoresService.scoreScaleInfo.length - 1"
+        [min]="0"
+        [step]="1"  (input)="chosenScore = $event.value!"
+        [value]="chosenScore" (change)="updateScore()">
+      </mat-slider>
+    </div>
+
+    <mat-checkbox [checked]="haveThisGame" (change)="haveThisGame = !haveThisGame; updateScore()" [disabled]="this._scoreThisGame?.isFree" matTooltip="Checked and disabled because game is free" [matTooltipDisabled]="!this._scoreThisGame?.isFree" matTooltipPosition="right">I got this game</mat-checkbox>
+    <button *ngIf="!scoresService.scoreScaleInfo[chosenScore] && !isInScoredList" class="skip-rate-button" (click)="gameSkipped.next(_scoreThisGame!)" mat-stroked-button color="accent" [disabled]="removeScoreRunning"><mat-icon>skip_next</mat-icon>Procrastinate</button>
+  </div>
+
+  <div class="score-timestamp">
+    <span class="timestamp-placeholder" *ngIf="!_scoreThisGame?.myScore">Not rated yet</span>
+    <div class="button-info-container" *ngIf="this._scoreThisGame?.myScore">
+      <span>You rated {{this._scoreThisGame?.myScore?.lastModifiedAt | dateAgo}}</span>
+      <div class="progress-bar-button">
+        <mat-progress-bar color="accent" mode="indeterminate" *ngIf="removeScoreRunning"></mat-progress-bar>
+        <button (click)="removeScore()" mat-stroked-button color="accent" [disabled]="removeScoreRunning"><mat-icon>undo</mat-icon>Unrate</button>
+      </div>
+    </div>
+  </div>
+</div>

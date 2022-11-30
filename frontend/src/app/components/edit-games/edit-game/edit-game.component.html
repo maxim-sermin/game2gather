@@ -1,0 +1,18 @@
+<div *ngIf="!currentlyEditing" class="edit-game-row">
+  <app-game-info [game]="game"></app-game-info>
+  <div class="edit-game-actions-container">
+    <ng-container *ngIf="game?.canEdit">
+      <button class="edit-delete-button" mat-stroked-button color="primary" (click)="toggleEdit()" [disabled]="someGameCurrentlyEditing"><mat-icon>edit</mat-icon>Edit</button>
+      <div class="edit-delete-button progress-bar-button">
+        <mat-progress-bar color="warn" mode="indeterminate" *ngIf="deleteGameRunning"></mat-progress-bar>
+        <button mat-stroked-button color="warn" (click)="deleteGame(game?.id!)" [disabled]="deleteGameRunning || someGameCurrentlyEditing"><mat-icon>delete</mat-icon>Delete</button>
+      </div>
+    </ng-container>
+    <span class="cannot-edit-hint" *ngIf="!game?.canEdit">Only creator can edit</span>
+  </div>
+</div>
+
+<div *ngIf="currentlyEditing" class="edit-form-container">
+  <app-add-game [editExistingGame]="game"></app-add-game>
+  <button class="edit-cancel-button" mat-stroked-button color="warn" (click)="toggleEdit()"><mat-icon>close</mat-icon>Cancel</button>
+</div>

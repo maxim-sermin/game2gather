@@ -1,0 +1,140 @@
+$left-column-elements-width: 330px;
+$profile-picture-size: 200px;
+
+@keyframes identicon-jello {
+  30% {
+    -webkit-transform: scale3d(1.25, 0.75, 1);
+    transform: scale3d(1.25, 0.75, 1);
+  }
+  40% {
+    -webkit-transform: scale3d(0.75, 1.25, 1);
+    transform: scale3d(0.75, 1.25, 1);
+  }
+  50% {
+    -webkit-transform: scale3d(1.15, 0.85, 1);
+    transform: scale3d(1.15, 0.85, 1);
+  }
+  65% {
+    -webkit-transform: scale3d(0.95, 1.05, 1);
+    transform: scale3d(0.95, 1.05, 1);
+  }
+  75% {
+    -webkit-transform: scale3d(1.05, 0.95, 1);
+    transform: scale3d(1.05, 0.95, 1);
+  }
+}
+
+.settings-container {
+  display: flex;
+  flex-direction: column;
+
+  .header-back-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+
+    app-back-button {
+      margin-right: 8px;
+    }
+
+    .settings-title {
+      font-size: 24px;
+      font-weight: 500;
+    }
+  }
+
+  h2 {
+    margin-top: 16px;
+  }
+
+  .wide-button {
+    width: $left-column-elements-width;
+  }
+
+  .own-account-panel {
+    .username-identicon-container {
+      display: flex;
+      align-items: flex-end;
+
+      .change-username-container {
+        display: flex;
+        flex-direction: column;
+
+        .new-user-name-field {
+          width: $left-column-elements-width;
+          font-size: 30px;
+
+          mat-form-field {
+            font-weight: bold;
+            width: 100%;
+          }
+        }
+      }
+
+      svg {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      svg:hover {
+        -webkit-animation: identicon-jello 0.9s both;
+        animation: identicon-jello 0.9s both;
+      }
+    }
+
+    .change-password-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+
+      mat-form-field {
+        width: $left-column-elements-width;
+        margin-bottom: 10px;
+      }
+    }
+
+    .name-save-button {
+      margin-bottom: 30px;
+    }
+
+    .delete-account-button {
+
+      mat-icon {
+        position: relative;
+        right: 5px;
+        bottom: 2px;
+      }
+    }
+  }
+
+  .create-account-panel {
+    .new-user-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 30px;
+
+      .input-with-hint {
+        flex-grow: 1;
+
+        mat-form-field {
+          width: 100%;
+        }
+      }
+
+      .add-new-user-button {
+        mat-icon {
+          position: relative;
+          right: 5px;
+          bottom: 2px;
+        }
+      }
+    }
+  }
+
+  mat-panel-description {
+    flex-grow: 1;
+    position: relative;
+    top: 3px;
+  }
+}

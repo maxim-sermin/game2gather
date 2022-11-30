@@ -1,0 +1,8 @@
+<img *ngIf="!_pictureUrl" class="game-picture-base game-picture game-picture-placeholder" [src]="'assets/game_picture_placeholder.jpg'" matTooltip="This is just a placeholder picture">
+<div *ngIf="_pictureUrl">
+  <img *ngIf="!pictureLinkError" class="game-picture-base game-picture" (error)="handlePictureError($event)" [src]="_pictureUrl">
+  <div *ngIf="pictureLinkError" class="game-picture-base broken-picture-link-container" matTooltip="Picture link is not valid and should be updated">
+    <mat-icon >broken_image</mat-icon>
+    <span>Link rot</span>
+  </div>
+</div>

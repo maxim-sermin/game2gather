@@ -1,0 +1,34 @@
+<div class="dialog-header-line">
+  <h2>Active sessions per user</h2>
+  <button tabindex="-1" class="close-button" mat-stroked-button (click)="dialogRef.close(false)"><mat-icon>close</mat-icon></button>
+</div>
+<mat-dialog-content>
+  <mat-accordion multi class="sessions-container">
+    <mat-expansion-panel *ngFor="let user of authenticationService.openSession" expanded>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <span>{{user.username}}</span>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="session-list">
+        <span *ngFor="let session of user.lastUsed">{{session | date: 'long'}}</span>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</mat-dialog-content>
+<div class="info-container">
+  <mat-icon>info</mat-icon>
+  <span>After a server restart, some sessions might still be valid which are not visible here though</span>
+</div>
+<mat-dialog-actions>
+  <div class="buttons-container">
+    <div class="progress-bar-button">
+      <mat-progress-bar color="warn" m ode="indeterminate" *ngIf="deleteRunning"></mat-progress-bar>
+      <button [disabled]="authenticationService.amountOpenSessions < 1 || deleteRunning" mat-raised-button color="warn" class="refresh-sessions-button" (click)="deleteAllSessions()"><mat-icon>delete_sweep</mat-icon>Logout all</button>
+    </div>
+    <div class="progress-bar-button">
+      <mat-progress-bar color="primary" mode="indeterminate" *ngIf="authenticationService.openSessionsRefreshRunning"></mat-progress-bar>
+      <button mat-raised-button color="primary" class="refresh-sessions-button" (click)="authenticationService.refreshOpenSessions()" [disabled]="authenticationService.openSessionsRefreshRunning"><mat-icon>refresh</mat-icon>Refresh</button>
+    </div>
+  </div>
+</mat-dialog-actions>

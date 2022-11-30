@@ -1,0 +1,89 @@
+<mat-card>
+  <mat-card-title>Who will play?</mat-card-title>
+  <div class="match-users-container">
+    <div class="match-options-row">
+      <mat-form-field class="users-field">
+        <mat-label>Select users</mat-label>
+        <mat-chip-list #usersChipList>
+          <mat-chip
+            *ngFor="let user of matchCacheService.selectedUsers"
+            [selectable]="true"
+            [removable]="user !== authenticationService.authenticatedUser.value"
+            (removed)="remove(user)"
+            matTooltip="You can't remove yourself from the list"
+            [matTooltipDisabled]="user !== authenticationService.authenticatedUser.value"
+            matTooltipPosition="right">
+            <span>{{user.username}}</span>
+            <span *ngIf="user === authenticationService.authenticatedUser.value">(You)</span>
+            <mat-icon *ngIf="user !== authenticationService.authenticatedUser.value" matChipRemove>cancel</mat-icon>
+          </mat-chip>
+          <input
+            #usersInput
+            [formControl]="selectUserInput"
+            [matAutocomplete]="usersAuto"
+            [matChipInputFor]="usersChipList"
+            [matChipInputAddOnBlur]="false"
+            (focus)="filterUsers()" (ngModelChange)="filterUsers()">
+        </mat-chip-list>
+        <mat-autocomplete #usersAuto="matAutocomplete" (optionSelected)="selected($event)">
+          <mat-option *ngFor="let user of filteredUsers.value" [value]="user">
+            <mat-icon color="accent">user</mat-icon>
+            {{user.username}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <div class="progress-bar-button">
+        <mat-progress-bar color="primary" mode="indeterminate" *ngIf="matchSearchRunning"></mat-progress-bar>
+        <button color="primary" mat-raised-button (click)="getMatchingGamesList()" [disabled]="matchSearchRunning"><mat-icon>search</mat-icon>Find games for {{matchCacheService.selectedUsers.length > 1 ? matchCacheService.selectedUsers.length + ' users': 'yourself'}}</button>
+      </div>
+    </div>
+    <div class="match-options-row">
+      <mat-form-field>
+        <mat-label>Supports Players</mat-label>
+        <input type="number" min="1" matInput [formControl]="matchCacheService.selectedAmountPlayers" (change)="updateFilters()">
+      </mat-form-field>
+
+      <!-- keep in sync with edit -->
+      <mat-form-field>
+        <mat-label>Genres</mat-label>
+        <mat-select multiple [formControl]="matchCacheService.selectedShowOnlyGenre" (ngModelChange)="updateFilters()">
+          <div matRipple class="pseudo-mat-option" [ngClass]="{'pseudo-mat-option-dark' : appService.isDarkTheme, 'pseudo-mat-option-light' : !appService.isDarkTheme}"><mat-checkbox (change)="allGenresSelected = $event.checked; genreService.toggleAllGenres(allGenresSelected, matchCacheService.selectedShowOnlyGenre)" [checked]="allGenresSelected" [indeterminate]="genreService.someGenresSelected(allGenresSelected, matchCacheService.selectedShowOnlyGenre)" color="primary"></mat-checkbox></div>
+          <mat-option class="sub-checkbox" *ngFor="let genre of genreService.allGenres.value" [value]="genre" (click)="allGenresSelected = genreService.getAllGenresSelected(this.matchCacheService.selectedShowOnlyGenre)">
+            {{genre.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-checkbox [formControl]="matchCacheService.selectedShowOnlyCoop" (change)="updateFilters()">Only games with coop</mat-checkbox>
+      <mat-checkbox [formControl]="matchCacheService.selectedShowOnlyVs" (change)="updateFilters()">Only games with vs.</mat-checkbox>
+      <mat-checkbox [formControl]="matchCacheService.selectedShowOnlyRatedByAll" (change)="updateFilters()">Only games rated by all</mat-checkbox>
+      <mat-checkbox [formControl]="matchCacheService.selectedShowOnlyOwnedByAlL" (change)="updateFilters()">Only games owned by all</mat-checkbox>
+    </div>
+  </div>
+  <div class="info-container">
+    <mat-icon>info</mat-icon>
+    <span>Games where at least one user gave the lowest rating 🚫 are excluded</span>
+  </div>
+  <div *ngFor="let game of matchCacheService.filteredGames; last as last; let i = index">
+    <div class="match-result-container">
+      <app-game-info [game]="game.game"></app-game-info>
+      <div class="skip-placing-container">
+        <div class="chips-remove-container">
+          <mat-chip-list class="chips-container">
+            <mat-chip color="accent" selected *ngIf="isGameRatedByAll(game)"><mat-icon class="chip-icon">favorite</mat-icon>Rated by all</mat-chip>
+            <mat-chip color="accent" selected *ngIf="isGameOwnedByAll(game)"><mat-icon class="chip-icon">inventory</mat-icon>Owned by all</mat-chip>
+          </mat-chip-list>
+          <button color="primary" class="skip-match-game-button" mat-stroked-button matTooltip="Won't play - remove game from the list" matTooltipPosition="left" (click)="skipMatchedGame(game)"><mat-icon>close</mat-icon></button>
+        </div>
+        <div class="placing-container">
+          <span *ngIf="i === 0" [ngClass]="{'primary-color-dark' : appService.isDarkTheme, 'primary-color-light' : !appService.isDarkTheme}" class="first-place">#{{i + 1}}</span>
+          <span *ngIf="i === 1" [ngClass]="{'accent-color-dark' : appService.isDarkTheme, 'accent-color-light' : !appService.isDarkTheme}" class="second-place">#{{i + 1}}</span>
+          <span *ngIf="i === 2" class="third-place">#{{i + 1}}</span>
+          <span *ngIf="i > 2" class="other-place">#{{i + 1}}</span>
+        </div>
+      </div>
+    </div>
+    <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
+  </div>
+  <app-empty-list-placeholder *ngIf="matchCacheService.filteredGames.length < 1 && matchCacheService.searchedGamesForAmountUsers > 0"></app-empty-list-placeholder>
+</mat-card>

@@ -1,0 +1,22 @@
+.sessions-container {
+  margin: 1px;
+
+  .session-list {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+
+  .refresh-sessions-button {
+    mat-icon {
+      position: relative;
+      right: 5px;
+      bottom: 1px;
+    }
+  }
+}

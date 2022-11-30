@@ -1,0 +1,50 @@
+@import "~src/variables";
+
+.mat-accordion .mat-expansion-panel{
+  margin-bottom: 20px;
+}
+
+.mat-expansion-panel-header-description {
+  align-items: center;
+}
+
+.existing-games-card {
+  margin-top: 20px;
+
+  .existing-games-header {
+    display: flex;
+    flex-direction: column;
+
+    .title-refresh-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .filter-sort-container {
+      display: flex;
+      gap: 10px;
+
+      .show-only-own-games-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 8px;
+      }
+    }
+  }
+
+  .filter-fields-container {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+
+    .players-field {
+      width: 130px;
+    }
+  }
+}
+
+.sub-checkbox {
+  padding-left: $sub-checkbox-left-padding;
+}

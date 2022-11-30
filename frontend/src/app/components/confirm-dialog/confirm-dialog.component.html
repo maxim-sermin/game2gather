@@ -1,0 +1,8 @@
+<h2 mat-dialog-title>{{dialogTitle}}</h2>
+<div class="dialog-content" mat-dialog-content>
+  <span class="first-line" [ngClass]="{'warn-color-dark' : appService.isDarkTheme, 'warn-color-light' : !appService.isDarkTheme}"><mat-icon class="mat-icon-rtl-mirror warning-icon">warning</mat-icon>{{dialogMessageFirstLine}}<mat-icon class="mat-icon-rtl-mirror warning-icon">warning</mat-icon></span>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button color="primary" (click)="dialogRef.close(false)"><mat-icon class="mat-icon-rtl-mirror dialog-action-icons">close</mat-icon>Cancel</button>
+  <button mat-raised-button color="warn" (click)="dialogRef.close(true)"><mat-icon class="mat-icon-rtl-mirror dialog-action-icons">check</mat-icon>Confirm</button>
+</div>

@@ -1,0 +1,91 @@
+<mat-card>
+  <mat-card-title><mat-icon>add_circle</mat-icon>Add new game</mat-card-title>
+  <mat-accordion>
+    <mat-expansion-panel >
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon>lightbulb</mat-icon>
+        </mat-panel-title>
+        <mat-panel-description>
+          Advice for adding new games
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <ul>
+        <li>Try to increase link longevity - use popular websites like Steam or the official game site and remove unnecessary parameters from URLs</li>
+        <li>For some games it can be hard to decide if they are competitive or cooperative - set the checkboxes according to how you would primarily play the game with your friends</li>
+        <li>Pay attention to the picture link you paste. Sometimes the raw picture data can get copied which will get rejected when saving (link too long)</li>
+      </ul>
+    </mat-expansion-panel>
+  </mat-accordion>
+  <app-add-game></app-add-game>
+</mat-card>
+<mat-card class="existing-games-card">
+  <div class="existing-games-header">
+    <div class="title-refresh-container">
+      <mat-card-title>Edit existing games</mat-card-title>
+      <div class="progress-bar-button">
+        <mat-progress-bar color="primary" mode="indeterminate" *ngIf="gamesService.refreshRunning"></mat-progress-bar>
+        <button mat-raised-button color="primary" (click)="gamesService.refreshGamesList(true)" [disabled]="gamesService.refreshRunning"><mat-icon>refresh</mat-icon>Refresh</button>
+      </div>
+    </div>
+    <div class="filter-sort-container">
+      <div class="show-only-own-games-container">
+        <mat-slide-toggle [formControl]="showOnlyOwnGames"></mat-slide-toggle>
+        <span>Only games you added</span>
+      </div>
+      <mat-form-field>
+        <mat-label>Sort</mat-label>
+        <mat-select [(value)]="gamesService.selectedSortDirection" (selectionChange)="gamesService.sortExistingGames()">
+          <mat-option *ngFor="let sortDirectionValue of sortDirectionValues" [value]="sortDirectionValue">
+            {{sortDirections[sortDirectionValue]}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <mat-accordion>
+    <mat-expansion-panel >
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon>filter_list</mat-icon>
+        </mat-panel-title>
+        <mat-panel-description>
+          Filter games
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <div class="filter-fields-container" [formGroup]="filterForm">
+        <mat-form-field>
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="gameTitle">
+        </mat-form-field>
+
+        <!-- keep in sync with match -->
+        <mat-form-field>
+          <mat-label>Genres</mat-label>
+          <mat-select multiple formControlName="onlyGenre">
+            <div matRipple class="pseudo-mat-option"><mat-checkbox (change)="allGenresSelected = $event.checked; genreService.toggleAllGenres(allGenresSelected, filterForm.controls['onlyGenre'])" [checked]="allGenresSelected" [indeterminate]="genreService.someGenresSelected(allGenresSelected, filterForm.controls['onlyGenre'])" color="primary"></mat-checkbox></div>
+            <mat-option class="sub-checkbox" *ngFor="let genre of genreService.allGenres.value" [value]="genre" (click)="allGenresSelected = genreService.getAllGenresSelected(filterForm.controls['onlyGenre'])">
+              {{genre.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="players-field">
+          <mat-label>Supports Players</mat-label>
+          <input type="number" min="1" matInput formControlName="supportsPlayers">
+        </mat-form-field>
+        <mat-checkbox formControlName="onlyCoop">Only games with coop</mat-checkbox>
+        <mat-checkbox formControlName="onlyVS">Only games with vs.</mat-checkbox>
+        <mat-checkbox formControlName="onlyFree">Only free games</mat-checkbox>
+      </div>
+
+    </mat-expansion-panel>
+  </mat-accordion>
+  <div *ngFor="let game of filteredGames; last as last">
+    <app-edit-game [game]="game" [someGameCurrentlyEditing]="someGameCurrentlyEditing" (currentlyEditingChanged)="someGameCurrentlyEditing = $event"></app-edit-game>
+    <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
+  </div>
+  <app-empty-list-placeholder *ngIf="filteredGames.length < 1"></app-empty-list-placeholder>
+</mat-card>

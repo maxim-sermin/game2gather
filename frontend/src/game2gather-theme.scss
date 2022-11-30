@@ -1,0 +1,89 @@
+@use '@angular/material' as mat;
+
+$dark-primary-text: rgba(black, 0.87);
+$light-primary-text: white;
+
+
+$game2gather-primary-palette: (
+  main: #f59a1e,
+  lighter: #feeec8,
+  darker: #f8b330,
+  200: #f59a1e, // For slide toggle,
+  contrast : (
+    main: $dark-primary-text,
+    lighter: $dark-primary-text,
+    darker: $dark-primary-text,
+  )
+);
+
+$game2gather-accent-palette: (
+  main: #5688c7,
+  lighter: #ccdbee,
+  darker: #3c6bb3,
+  200: #5688c7, // For slide toggle,
+  contrast : (
+    main: $light-primary-text,
+    lighter: $dark-primary-text,
+    darker: $light-primary-text,
+  )
+);
+
+$game2gather-warn-palette: (
+  main: #f26419,
+  lighter: #fbd1ba,
+  darker: #ec480e,
+  200: #f26419, // For slide toggle,
+  contrast : (
+    main: $dark-primary-text,
+    lighter: $dark-primary-text,
+    darker: $light-primary-text,
+  )
+);
+
+$game2gather-primary-light: mat.define-palette($game2gather-primary-palette, main, lighter, darker);
+$game2gather-accent-light:  mat.define-palette($game2gather-accent-palette, main, lighter, darker);
+$game2gather-warn-light:    mat.define-palette($game2gather-warn-palette, main, lighter, darker);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$game2gather-light-theme: mat.define-light-theme((
+  color: (
+    primary: $game2gather-primary-light,
+    accent: $game2gather-accent-light,
+    warn: $game2gather-warn-light,
+  )
+));
+
+$game2gather-primary-dark: mat.define-palette($game2gather-primary-palette, main, lighter, darker);
+$game2gather-accent-dark:  mat.define-palette($game2gather-accent-palette, main, lighter, darker);
+$game2gather-warn-dark:    mat.define-palette($game2gather-warn-palette, main, lighter, darker);
+
+$game2gather-dark-theme: mat.define-dark-theme((
+      color: (
+        primary: $game2gather-primary-dark,
+        accent: $game2gather-accent-dark,
+        warn: $game2gather-warn-dark,
+      ),
+    )
+);
+
+// get base colors for use in css
+.primary-color-light {
+  color: mat.get-color-from-palette(map-get($game2gather-light-theme, primary));
+}
+.accent-color-light {
+  color: mat.get-color-from-palette(map-get($game2gather-light-theme, accent));;
+}
+.warn-color-light {
+  color: mat.get-color-from-palette(map-get($game2gather-light-theme, warn));
+}
+
+.primary-color-dark {
+  color: mat.get-color-from-palette(map-get($game2gather-dark-theme, primary));
+}
+.accent-color-dark {
+  color: mat.get-color-from-palette(map-get($game2gather-dark-theme, accent));;
+}
+.warn-color-dark {
+  color: mat.get-color-from-palette(map-get($game2gather-dark-theme, warn));
+}

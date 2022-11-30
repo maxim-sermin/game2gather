@@ -1,0 +1,84 @@
+<div class="floating-actions-container">
+  <div class="progress-bar-button">
+    <mat-progress-bar color="primary" mode="indeterminate" *ngIf="gamesService.refreshRunning || scoresService.refreshRunning"></mat-progress-bar>
+    <button mat-raised-button color="primary" (click)="gamesService.refreshGamesList(true)" [disabled]="gamesService.refreshRunning || scoresService.refreshRunning"><mat-icon>refresh</mat-icon>Refresh</button>
+  </div>
+</div>
+
+<mat-card class="existing-games-card">
+  <canvas #confettiCanvas class="confetti-canvas"></canvas>
+  <div class="existing-games-header">
+    <mat-card-title>Rate {{scoreCacheService.currentRateSlice.length}} games today</mat-card-title>
+    <div class="show-all-unrated-container">
+      <mat-slide-toggle [formControl]="showAllUnratedControl"></mat-slide-toggle>
+      <span>Show all unrated games</span>
+    </div>
+  </div>
+  <div class="progress-button-container">
+    <div class="progress-bar-container" *ngIf="scoreCacheService.currentRateSlice.length > 0">
+      <span>Progress</span>
+      <mat-progress-bar [value]="scoreCacheService.amountScoredFromSlice / scoreCacheService.currentRateSlice.length * 100"></mat-progress-bar>
+      <span>{{scoreCacheService.amountScoredFromSlice}}/{{scoreCacheService.currentRateSlice.length}}</span>
+    </div>
+  </div>
+  <app-game-list [gamesWithMyScores]="scoreCacheService.currentRateSlice" [listShowsScored]="false" (amountScoredChanged)="handleScoredAmountChanged()" (gameSkipped)="handleGameSkipped($event)"></app-game-list>
+  <div class="rate-more-button-container">
+    <button class="rate-more-button" mat-raised-button color="primary" *ngIf="!showAllUnratedControl.value && !ratesLeftInSlice() && scoreCacheService.currentRateSlice.length > 0" (click)="showNextRatePage()"><mat-icon>playlist_add</mat-icon>Rate more games</button>
+    <div *ngIf="scoreCacheService.firstSliceInitialized && scoreCacheService.currentRateSlice.length < 1" class="confetti-controls">
+      <div class="confetti-sliders">
+        <div class="control-with-title">
+          <span class="control-title">Particle count</span>
+          <div class="control-with-value">
+            <mat-slider
+              [min]="0"
+              [max]="confettiParticleCountBaseMax"
+              [step]="1"
+              [value]="confettiParticleCountBase"
+              (input)="confettiParticleCountBase = $event.value!">
+            </mat-slider>
+            <span>{{confettiParticleCountBase}}</span>
+          </div>
+        </div>
+        <div class="control-with-title">
+          <span class="control-title">Force</span>
+          <div class="control-with-value">
+            <mat-slider
+              [min]="0"
+              [max]="confettiSpeedBaseMax"
+              [step]="1"
+              [value]="confettiSpeedBase"
+              (input)="confettiSpeedBase = $event.value!">
+            </mat-slider>
+            <span>{{confettiSpeedBase}}</span>
+          </div>
+        </div>
+        <div class="control-with-title">
+          <span class="control-title">Spread</span>
+          <div class="control-with-value">
+            <mat-slider
+              [min]="0"
+              [max]="confettiSpreadBaseMax"
+              [step]="1"
+              [value]="confettiSpreadBase"
+              (input)="confettiSpreadBase = $event.value!">
+            </mat-slider>
+            <span>{{confettiSpreadBase}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="fire-buttons">
+        <button mat-raised-button color="accent" (click)="fireLeftButton()"><mat-icon>celebration</mat-icon>Fire left</button>
+        <button mat-raised-button color="accent" (click)="fireConfettiBoth()"><mat-icon>celebration</mat-icon>Fire both<mat-icon class="confetti-icon-flip">celebration</mat-icon></button>
+        <button mat-raised-button color="accent" (click)="fireRightButton()">Fire right<mat-icon class="confetti-icon-flip">celebration</mat-icon></button>
+      </div>
+    </div>
+  </div>
+</mat-card>
+
+<mat-card class="existing-games-card">
+  <div class="existing-games-header">
+    <mat-card-title>You already rated {{scoreCacheService.gamesWithMyScores.length}} games</mat-card-title>
+  </div>
+  <app-game-list [gamesWithMyScores]="scoreCacheService.gamesWithMyScores"
+               [listShowsScored]="true"></app-game-list>
+</mat-card>
